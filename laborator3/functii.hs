@@ -58,3 +58,23 @@ insert val (Node x left right)
   | val == x = Node x left right
   | val < x = Node x (insert val left) right
   | otherwise = Node x left (insert val right)
+
+
+-- Definit, i un tip de date pentru expresii booleene (variabile boolene, constante true/false, oper-
+-- atori (s, i, sau, not))
+
+data BoolExpr = Val Bool | NU BoolExpr | SI BoolExpr BoolExpr | SAU BoolExpr BoolExpr deriving Show
+
+
+reduce :: BoolExpr -> BoolExpr
+reduce z@(Val _) = z
+reduce z@(SI (Val False) _ ) = Val False
+reduce z@(SI  _ (Val False)) = Val False
+reduce (NU e) = case e of 
+                (Val x) -> (Val (not x))
+                complexpr -> reduce (NU (reduce complexpr))
+reduce z@(SAU _ _) =  case z of
+               (SAU (Val True) _ ) -> Val True
+               (SAU  _ (Val True)) -> Val True
+               (SAU (Val False) (Val False)) -> Val False
+               (SAU c1 c2)         -> reduce (SAU (reduce c1) (reduce c2)) 

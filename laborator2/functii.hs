@@ -69,8 +69,40 @@ fibonaux 0 a _          = a
 fibonaux n a b          = fibonaux (n - 1) b (a + b)
 
 
-fibo' ::  -> Integer;
+fibo' ::  Integer -> Integer;
 fibo' n         = fibonaux n 0 1
 
---7 
-succ1 x | x<0 = error "no"
+
+efibo :: Integer -> Integer
+efibo x | x ==0 || x ==1 = x
+        |otherwise       = efibo(x-1) + efibo(x-2)
+
+
+efiboaux :: Integer -> Integer -> Integer -> Integer 
+efiboaux 1 a _ = a -- because we give 2 first numbers already
+efiboaux n a b = efiboaux (n-1) (a+b) a
+
+-- C.B 
+--       efiboaux 1 a b = a = b + fib(n-2) = fib(n)
+--       n - initial param
+-- C.I   
+      
+
+--       proove that
+--       efiboaux n 1 0 = fib (n) 
+succc :: Integer -> Integer
+succc x | x<0 = error "no"
+
+mymod :: Integer -> Integer -> Integer
+mymod nr div | nr < div = nr
+             |otherwise = mymod (nr - div) div
+
+
+mydiv :: Integer -> Integer -> Integer
+mydiv nr div | nr < div = 0
+             |otherwise = 1 + mydiv (nr - div) div
+
+
+testss :: [Char] -> Integer
+testss [] = 0
+testss (hd:tl) = 1 + testss tl
